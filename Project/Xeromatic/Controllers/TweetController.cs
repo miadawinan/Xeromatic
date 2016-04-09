@@ -26,5 +26,15 @@ namespace Xeromatic.Controllers
             var tweets = _tweetDbService.GetTweets();
             return tweets;
         }
+        //Get: Recent tweete
+        //Return Tweet from Twitter api
+        [HttpGet]
+        [Route("RecentTweets")]
+        public IEnumerable<Tweet> RecentTweets()
+        {
+            var tweets = _twitterApiService.GetTweets();
+            return tweets;
+        }
+
     }
 }
