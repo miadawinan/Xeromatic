@@ -36,5 +36,18 @@ namespace Xeromatic.Controllers
             return tweets;
         }
 
+
+        //POST: Pin Tweet
+        [HttpPost]
+        [Route("PinTweet")]
+        public void PinTweet(Tweet tweet)
+        {
+
+            _tweetDbService.InsertTweet(tweet);
+
+        }
+
     }
+
 }
+

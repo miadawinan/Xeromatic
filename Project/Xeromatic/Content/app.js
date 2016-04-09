@@ -12,7 +12,7 @@ var Tweet = React.createClass({
 
 var Button = React.createClass({
 	render: function() {
-		return <button className="btn btn-info pull-right">{this.props.label}</button>
+		return <button onClick={this.props.link} className="btn btn-info pull-right">{this.props.label}</button>
 	}
 });
 
@@ -45,14 +45,35 @@ var App = React.createClass({
                 self.setState({recentTweets: data[0], pinnedTweets: data[1]})
             }).catch(function(error){console.error('Error',error)});
 	},
+    //function
+	pin: function(tweet) {
+		var self=this;
+
+			fetch('/pinTweet', {
+					method: 'post',
+					headers: new Headers({
+							'Content-type' : 'application/json'
+					}),
+					body: JSON.stringify(tweet)
+				})
+				.then(function(response) {
+						var data = self.state.pinnedTweets;
+						data.push(tweet);
+						self.setState({pinnedTweets:data});
+				});
+
+	},
+
+
 
 	//React function that runs on first load and whenever the state is changed
 	render: function() {
+			var self=this;
 	    var recentTweets = (this.state.recentTweets.length > 0) ? this.state.recentTweets.map(function(tweet) {
 	        return (
 
 	        	<Tweet key={tweet.Id} text={tweet.Text}>
-	        		<Button label="Pin" />
+	        		<Button link={function(){self.pin(tweet)}}label="Pin" />
 	        	</Tweet>
 
 	        	)
